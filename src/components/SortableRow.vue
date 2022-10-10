@@ -1,6 +1,6 @@
 <template>
   <div> 
-    <div class="row" draggable="true" @dragstart="startDrag($event, data)" :data-drag-id="data.id">
+    <div class="row" draggable="true" @dragstart="startDrag($event, data)" @dragend="endDrag($event, data)" :data-drag-id="data.id">
       <div class="sortable-row">
         <div class="header dropzone" @drop="onDrop($event, data)" @dragenter.prevent @dragover.prevent>
           <button type="button" class="drag-btn">
@@ -40,10 +40,15 @@ const startDrag = (event, item) => {
   const id = item.id;
   const elemId = event.target.dataset.dragId;
   if (id && elemId && id.toString() === elemId.toString()) {
+    event.target.classList.add("in-drag");
     event.dataTransfer.dropEffect = 'move';
     event.dataTransfer.effectAllowed = 'move';
     event.dataTransfer.setData('itemID', item.id);
   }
+}
+
+const endDrag = (event, item) => {
+  event.target.classList.remove("in-drag");
 }
 
 const onDrop = (event, data) => {
@@ -73,6 +78,7 @@ function update(itemID, id) {
   line-height: 30px;
   justify-content: space-between;
   border-bottom: 1px solid #dedede;
+  padding: 0 5px;
 }
 
 .header {
@@ -90,5 +96,9 @@ function update(itemID, id) {
 
 .dropzone {
   min-height: 20px;
+}
+.in-drag {
+  background: #f5dbff;
+  box-shadow: inset 1px 1px 10px #9b59b6;
 }
 </style>

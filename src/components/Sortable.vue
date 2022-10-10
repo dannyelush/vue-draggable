@@ -52,8 +52,8 @@ function update(drag, drop) {
   const parent = findParentById(data.value, drag, null);
   const dragElem = findElemById(data.value, drag);
   const dropElem = findElemById(data.value, drop);
-  // Execute only if parent has changed
-  if (parent && parent.id !== drop) {  
+  // Execute only if there is no parent or the parent has changed
+  if (!parent || (parent && parent.id !== drop)) {  
     if (!dropElem.children) {
       dropElem.children = [];
     }
